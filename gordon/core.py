@@ -35,6 +35,7 @@ AVAILABLE_RESOURCES = {
     'dynamodb': resources.dynamodb.Dynamodb,
     'kinesis': resources.kinesis.Kinesis,
     's3': resources.s3.BucketNotificationConfiguration,
+    's3encryptions': resources.s3encryptions.s3Encryption,
     'events': resources.events.CloudWatchEvent,
     'vpcs': resources.vpcs.Vpc,
     'contexts': resources.contexts.LambdasContexts,

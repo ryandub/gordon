@@ -82,6 +82,9 @@ class Lambda(base.BaseResource):
     def get_context_key(self):
         return self.settings.get('context', 'default')
 
+    def get_s3encryption_key(self):
+        return self.settings.get('s3encryption', None)
+
     def get_context_destination(self):
         return self.settings.get('context-destinaton', '.context')
 
@@ -358,12 +361,28 @@ class Lambda(base.BaseResource):
         else:
             context = lambda_context.settings
 
+        s3encryption, s3encryption_key = {}, self.get_s3encryption_key()
+        if s3encryption_key:
+            try:
+                lambda_s3encryption = self.project.get_resource('s3encryption::{}'.format(
+                    s3encryption_key))
+            except exceptions.ResourceNotFoundError:
+                raise
+            else:
+                s3encryption = {
+                    'ServerSideEncryption': lambda_s3encryption.settings['type'],
+                }
+                if s3encryption['ServerSideEncryption'] == 'kms':
+                    s3encryption['ServerSideEncryption'] = 'aws:kms'
+                    s3encryption['SSEKMSKeyId'] = lambda_s3encryption.settings['key_id']
+
         template.add(
             actions.InjectContextAndUploadToS3(
                 name="{}-upload".format(self.name),
                 bucket=actions.Ref(name='CodeBucket'),
                 key=self.get_bucket_key(),
                 filename=os.path.relpath(filename, self.project.build_path),
+                s3encryption=s3encryption,
                 context_to_inject=context,
                 context_destinaton=self.get_context_destination()
             )

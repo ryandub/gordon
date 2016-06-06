@@ -53,7 +53,8 @@
             "filename": "code/contrib_helpers_sleep.zip",
             "context_to_inject": {},
             "context_destinaton": ".context",
-            "key": "contrib_helpers_sleep.zip"
+            "key": "contrib_helpers_sleep.zip",
+            "s3encryption": {}
         },
         {
             "_type": "InjectContextAndUploadToS3",
@@ -65,7 +66,8 @@
             "filename": "code/contrib_lambdas_version.zip",
             "context_to_inject": {},
             "context_destinaton": ".context",
-            "key": "contrib_lambdas_version.zip"
+            "key": "contrib_lambdas_version.zip",
+            "s3encryption": {}
         }
     ],
     "parameters": {

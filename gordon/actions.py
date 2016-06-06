@@ -9,6 +9,7 @@ from collections import Iterable
 import six
 import boto3
 import troposphere
+from botocore.client import Config
 from clint.textui import colored, puts
 
 from gordon import utils, exceptions
@@ -165,6 +166,7 @@ class UploadToS3(BaseAction):
         ('bucket', '', True),
         ('key', '', True),
         ('filename', '', True),
+        ('s3encryption', {}, False),
     )
 
     def apply(self, context, project):
@@ -180,6 +182,7 @@ class UploadToS3(BaseAction):
         self.context = context
         self.bucket = self._get('bucket', self.context)
         self.key = self._get('key', self.context)
+        self.s3encryption = self._get('s3encryption', context)
 
         self.filename = self._friendly_name = os.path.join(
             project.build_path,
@@ -213,8 +216,10 @@ class UploadToS3(BaseAction):
                 file_hash[:8], self.bucket, self.key))
             )
 
-        obj = boto3.resource('s3').Object(self.bucket, self.key)
-        obj.upload_file(self.filename, ExtraArgs={'Metadata': {'sha1': file_hash}})
+        obj = boto3.resource('s3', config=Config(signature_version='s3v4')).Object(self.bucket, self.key)
+        extra_args = self.s3encryption
+        extra_args['Metadata'] = {'sha1': file_hash}
+        obj.upload_file(self.filename, ExtraArgs=extra_args)
         self._success(file_hash, project.puts)
         return self.output(obj.version_id)
 

@@ -4,6 +4,7 @@ from . import dynamodb
 from . import lambdas
 from . import kinesis
 from . import s3
+from . import s3encryptions
 from . import events
 from . import vpcs
 from . import contexts

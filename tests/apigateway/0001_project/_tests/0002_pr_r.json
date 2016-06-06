@@ -11,7 +11,8 @@
             "context_to_inject": {},
             "filename": "code/contrib_helpers_sleep.zip",
             "key": "contrib_helpers_sleep.zip",
-            "name": "sleep-upload"
+            "name": "sleep-upload",
+            "s3encryption": {}
         },
         {
             "_type": "InjectContextAndUploadToS3",
@@ -23,7 +24,8 @@
             "context_to_inject": {},
             "filename": "code/contrib_lambdas_version.zip",
             "key": "contrib_lambdas_version.zip",
-            "name": "version-upload"
+            "name": "version-upload",
+            "s3encryption": {}
         },
         {
             "_type": "InjectContextAndUploadToS3",
@@ -35,7 +37,8 @@
             "context_to_inject": {},
             "filename": "code/pyexample_byepy.zip",
             "key": "pyexample_byepy.zip",
-            "name": "byepy-upload"
+            "name": "byepy-upload",
+            "s3encryption": {}
         },
         {
             "_type": "InjectContextAndUploadToS3",
@@ -47,7 +50,8 @@
             "context_to_inject": {},
             "filename": "code/pyexample_hellopy.zip",
             "key": "pyexample_hellopy.zip",
-            "name": "hellopy-upload"
+            "name": "hellopy-upload",
+            "s3encryption": {}
         }
     ],
     "outputs": {
